@@ -31,11 +31,12 @@ class Main{
 		}
 	  }
 	
-	public static void main(String[] args) throws FileNotFoundException, IOException {
+	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
 		
 		
 		Map<Integer,course> course = FileExists.course();
-		
+		Map<Integer,batch> batch = FileExists.batch();
+		Map<Integer,entity.student> student  = FileExists.student();
 		
 		Scanner sc = new Scanner(System.in);
 		try {
@@ -61,6 +62,12 @@ class Main{
 			try {
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("course.ser"));
 			oos.writeObject(course);
+			
+			ObjectOutputStream ooss = new ObjectOutputStream(new FileOutputStream("batch.ser"));
+			ooss.writeObject(batch);
+			
+			ObjectOutputStream oosss = new ObjectOutputStream(new FileOutputStream("student.ser"));
+			oosss.writeObject(student);
 			}
 			catch(Exception e) {
 				System.out.println(e.getMessage());
