@@ -1,4 +1,5 @@
 package services;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import entity.*;
@@ -24,6 +25,57 @@ public class CourseService {
 		else {
 			throw new courseException("There is no course");
 		}
+	}
+
+	public static String update(int id, Map<Integer, course> c, course cd) throws courseException{
+		// TODO Auto-generated method stub
+		c.put(id, cd);
+		return "Course Updated Successfull";
+	}
+
+	public static Map<Integer, course> searchbyname(String name, Map<Integer, course> c) throws courseException {
+		// TODO Auto-generated method stub
+		Map<Integer, course> map = new LinkedHashMap<>();
+		for(Map.Entry<Integer,course> m :c.entrySet()) {
+			if(m.getValue().getName().equals(name)) {
+				map.put(m.getKey(), m.getValue());
+			}
+		}
+		
+		if(map.size() == 0) {
+			throw new courseException("No Result Found");
+		}
+		return map;
+	}
+
+	public static Map<Integer, course> searchbyduration(int min, int max, Map<Integer, course> c) throws courseException {
+		// TODO Auto-generated method stub
+		Map<Integer, course> map = new LinkedHashMap<>();
+		for(Map.Entry<Integer,course> m :c.entrySet()) {
+			if(m.getValue().getDurationMonth()>=min && m.getValue().getDurationMonth()<=max) {
+				map.put(m.getKey(), m.getValue());
+			}
+		}
+		
+		if(map.size() == 0) {
+			throw new courseException("No Result Found");
+		}
+		return map;
+	}
+
+	public static Map<Integer, course> searchbyfee(int min, int max, Map<Integer, course> c) throws courseException {
+		// TODO Auto-generated method stub
+		Map<Integer, course> map = new LinkedHashMap<>();
+		for(Map.Entry<Integer,course> m :c.entrySet()) {
+			if(m.getValue().getFee()>=min && m.getValue().getFee()<=max) {
+				map.put(m.getKey(), m.getValue());
+			}
+		}
+		
+		if(map.size() == 0) {
+			throw new courseException("No Result Found");
+		}
+		return map;
 	}
 	
 }

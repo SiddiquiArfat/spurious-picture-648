@@ -41,13 +41,16 @@ class Main{
 			break;
 			case 9: viewAll(c);
 			break;
-		
-			
+			case 2: search(sc,c);
+			break;
+			case 3: System.out.println(updateCourse(sc,c));
+			break;
+			case 10: System.out.println("Loged Out");
+			break;
 			default : throw new Illegalargumentexception("sd"+choise);
-			
 			}
 			
-		}while(choise!=0);
+		}while(choise<10);
 		
 		
 		}
@@ -56,6 +59,60 @@ class Main{
 		}
 		}
 	
+		private static void search(Scanner sc, Map<Integer, course> c) throws courseException {
+		// TODO Auto-generated method stub
+			
+			System.out.println("Press 1-->Search by name Press 2--->Search by Course Duration Press 3-->Search by Fee Range");
+			int choise = sc.nextInt();
+			if(choise>3 || choise<1) {
+				throw new courseException("Invalid Choise");
+			}
+			 
+			Map<Integer,course> map = null;
+			if(choise == 1) {
+				System.out.println("Please Enter the Course Name");
+				String name = sc.next();
+				map = CourseService.searchbyname(name,c);
+			}
+			else if(choise == 2) {
+				System.out.println("Please Enter the Duration in months range(min-max)");
+				int min = sc.nextInt();
+				int max = sc.nextInt();
+				map = CourseService.searchbyduration(min,max,c);
+			}
+			else if(choise == 3) {
+				System.out.println("Please Enter the Fee in range(min-max)");
+				int min = sc.nextInt();
+				int max = sc.nextInt();
+				map = CourseService.searchbyfee(min,max,c);
+			}
+			viewAll(map);
+	}
+
+		private static String updateCourse(Scanner sc, Map<Integer, course> c) throws courseException {
+		// TODO Auto-generated method stub
+			System.out.println("Enter the ID of the course you want tot update");
+			int id = sc.nextInt();
+			if(!c.containsKey(id)) {
+				throw new courseException("There is no course with this key");
+			}
+			
+			System.out.println("Please Enter Name of Course : ");
+			String name = sc.next();
+			
+			System.out.println("Enter the Duration of the course in months : ");
+			int dura = sc.nextInt();
+			
+			System.out.println("Enter the Fee of the course : ");
+			int Fee = sc.nextInt();
+			
+			System.out.println("Enter the Description of the course : ");
+			String des = sc.next();
+			course cd = new course(id,dura,name,Fee,des);
+			String str = CourseService.update(id,c,cd);
+			return str;
+	}
+
 		public static void viewAll(Map<Integer,course> c) throws courseException {
 		// TODO Auto-generated method stub
 		 CourseService.viewAll(c);
