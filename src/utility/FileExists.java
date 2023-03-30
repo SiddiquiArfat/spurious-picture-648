@@ -21,7 +21,7 @@ public class FileExists {
 
 	public static Map<Integer,course> course(){
 		File d= new File("course.ser");
-		Map<Integer,course> map= null;
+		Map<Integer,course> map= new LinkedHashMap<>();;
 		try {
 			boolean flag = false;
 			if(!d.exists()) {
@@ -29,7 +29,7 @@ public class FileExists {
 				flag = true;
 			}
 			if(flag) {
-				map = new LinkedHashMap<>();
+				 
 				ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(d));
 				oos.writeObject(map);
 				return map;

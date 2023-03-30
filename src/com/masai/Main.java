@@ -10,10 +10,78 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.*;
 import exceptions.*;
-  
+import utility.*;
 
 
 class Main{
+	
+	public static void admin(Scanner sc,Map<Integer,course> c,Map<Integer,batch> b,Map<Integer,student> s) throws invalidadmindetails {
+		
+		adminlogin(sc);
+		
+		
+		int choise = 0;
+		try {
+		do {
+			
+			System.out.println("Press 1 for Add New Course");
+			System.out.println("Press 2 for Search information about Course");
+			System.out.println("Press 3 for Update Details about Course");
+			System.out.println("Press 4 for Create New Batch");
+			System.out.println("Press 5 for Search information about Batch");
+			System.out.println("Press 6 for Update Details about Batch");
+			System.out.println("Press 7 for View student details");
+			System.out.println("Press 8 for View the student list of a batch");
+			System.out.println("Press 9 for View the courses list");
+			
+			choise = sc.nextInt();
+			
+			switch(choise) {
+			case 1: System.out.println(addcourse(sc,c));
+			break;
+			case 9: viewAll(c);
+			break;
+		
+			
+			default : throw new Illegalargumentexception("sd"+choise);
+			
+			}
+			
+		}while(choise!=0);
+		
+		
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		}
+	
+		public static void viewAll(Map<Integer,course> c) throws courseException {
+		// TODO Auto-generated method stub
+		 CourseService.viewAll(c);
+		}
+	
+
+	public static String addcourse(Scanner sc,Map<Integer,course> map) {
+		System.out.println("Please Enter New COurse Details");
+		System.out.println("Please Enter Name of Course : ");
+		String name = sc.next();
+		
+		System.out.println("Enter the Duration of the course in months : ");
+		int dura = sc.nextInt();
+		
+		System.out.println("Enter the Fee of the course : ");
+		int Fee = sc.nextInt();
+		
+		System.out.println("Enter the Description of the course : ");
+		String des = sc.next();
+		int id = IdGen.idGen();
+		course cd = new course(id,dura,name,Fee,des);
+		
+		String str = CourseService.addCourse(id,cd,map);
+		return str;
+		
+	}
 	
 	
 	
@@ -47,7 +115,7 @@ class Main{
 				System.out.println("Press 1---> Admin Login, Press 2---> Student Login, Press 3---> Student Sign Up, Press 0--->Exit");
 				choice = sc.nextInt();
 				switch(choice) {
-				case 1: adminlogin(sc);
+				case 1: admin(sc,course,batch,student);
 				break;
 				case 0: System.out.println("Successfully exited");
 				break;
