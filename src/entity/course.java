@@ -1,13 +1,24 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class course implements Serializable{
 	int id;
 	int durationMonth;
 	String name;
 	double fee;
-	String description; 
+	String description;
+	List<Map<Integer, batch>> li = new ArrayList<>();
+	
+	public List<Map<Integer, batch>> getLi() {
+		return li;
+	}
+	public void setLi(List<Map<Integer, batch>> li) {
+		this.li = li;
+	}
 	public course(int id, int duration,String name,double fee,String descrip){
 		super();
 		this.id = id;

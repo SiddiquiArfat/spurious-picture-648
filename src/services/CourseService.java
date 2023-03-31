@@ -1,5 +1,6 @@
 package services;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import entity.*;
@@ -29,6 +30,14 @@ public class CourseService {
 
 	public static String update(int id, Map<Integer, course> c, course cd) throws courseException{
 		// TODO Auto-generated method stub
+		List<Map<Integer,batch>> li = null;
+		
+			if(c.containsKey(id)) {
+				li = c.get(id).getLi();
+				
+			}
+		
+		cd.setLi(li);
 		c.put(id, cd);
 		return "Course Updated Successfull";
 	}
@@ -77,5 +86,7 @@ public class CourseService {
 		}
 		return map;
 	}
+
+	
 	
 }
