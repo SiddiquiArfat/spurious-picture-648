@@ -39,15 +39,28 @@ class Main{
 			switch(choise) {
 			case 1: System.out.println(addcourse(sc,c));
 			break;
+			
 			case 9: viewAll(c);
 			break;
+			
 			case 2: search(sc,c);
 			break;
+			
 			case 3: System.out.println(updateCourse(sc,c));
 			break;
-			case 10: System.out.println("Loged Out");
+			
+			case 4: System.out.println(addbatch(sc,b));
 			break;
-			default : throw new Illegalargumentexception("sd"+choise);
+			case 5: searchbatch(sc,b);
+			break;
+			case 6: updatebatch(sc,b);
+			break;
+			case 7: viewAl(b);
+			break;
+			case 0: System.out.println("Loged Out");
+			break;
+			
+			default : throw new Illegalargumentexception("Illegal Argument Entered "+choise);
 			}
 			
 		}while(choise<10);
@@ -59,6 +72,31 @@ class Main{
 		}
 		}
 	
+		private static String updatebatch(Scanner sc, Map<Integer, batch> b) throws courseException {
+		// TODO Auto-generated method stub
+			System.out.println("Enter the ID of the batch you want update");
+			int id = sc.nextInt();
+			if(!b.containsKey(id)) {
+				throw new courseException("There is no course with this key");
+			}
+			
+			System.out.println("Please Enter Name of batch : ");
+			String name = sc.next();
+			
+			System.out.println("Enter the Starting date of the batch ");
+			String dura = sc.next();
+			
+			System.out.println("Enter the Ending date of the batch ");
+			String Fee = sc.next();
+			
+			System.out.println("Enter the course name : ");
+			String des = sc.next();
+			
+			batch cd = new batch(id,name,dura,Fee,des);
+			String str = BatchService.update(id,b,cd);
+			return str;
+		}
+
 		private static void search(Scanner sc, Map<Integer, course> c) throws courseException {
 		// TODO Auto-generated method stub
 			
@@ -136,12 +174,61 @@ class Main{
 		course cd = new course(id,dura,name,Fee,des);
 		
 		String str = CourseService.addCourse(id,cd,map);
-		return str;
+		return str;	
+	}
+	
+	public static String addbatch(Scanner sc,Map<Integer,batch> map) throws courseException, BatchException {
+		System.out.println("Please Enter New Batch Details");
+		System.out.println("Please Enter Name of name : ");
+		String name = sc.next();
 		
+		System.out.println("Enter the Starting date (dd-mm-yyyy) : ");
+		String dura = sc.next();
+		
+		System.out.println("Enter the Ending date (dd-mm-yyyy) : ");
+		String Fee = sc.next();
+		System.out.println("Enter the Course Name : ");
+		String course = sc.next();
+		int id = IdGen.idGen();
+		batch cd = new batch(id,name,dura,Fee,course);
+		String str = BatchService.addbatch(id,cd,map);
+		return str;
 	}
 	
 	
 	
+	private static void searchbatch(Scanner sc, Map<Integer, batch> c) throws courseException, BatchException {
+		// TODO Auto-generated method stub
+			
+			System.out.println("Press 1-->Search by name Press 2--->Search by Course name");
+			int choise = sc.nextInt();
+			if(choise>2 || choise<1) {
+				throw new courseException("Invalid Choise");
+			}
+			 
+			Map<Integer,batch> map = null;
+			if(choise == 1) {
+				System.out.println("Please Enter the Batch Name");
+				String name = sc.next();
+				map = BatchService.searchbyname(name,c);
+			}
+			else if(choise == 2) {
+				System.out.println("Please Enter the Course Name ");
+				String name = sc.next();
+				map = BatchService.searchbycourse(name,c);
+			}
+			
+			viewAl(map);
+	}
+	
+	
+	
+	
+	private static void viewAl(Map<Integer, batch> map) throws BatchException {
+		// TODO Auto-generated method stub
+		BatchService.viewAll(map);
+	}
+
 	public static void adminlogin(Scanner sc) throws invalidadmindetails {
 		// TODO Auto-generated method stub
 		System.out.println("Please Enter User Name : ");
