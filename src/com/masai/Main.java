@@ -33,7 +33,7 @@ class Main{
 			System.out.println("Press 7 for View student details");
 			System.out.println("Press 8 for View the student list of a batch");
 			System.out.println("Press 9 for View the courses list");
-			
+			System.out.println("Press 10 for View the batch list");
 			choise = sc.nextInt();
 			
 			switch(choise) {
@@ -51,19 +51,24 @@ class Main{
 			
 			case 4: System.out.println(addbatch(sc,b));
 			break;
+			
 			case 5: searchbatch(sc,b);
 			break;
+			
 			case 6: updatebatch(sc,b);
 			break;
-			case 7: viewAl(b);
+			case 8: displaystudent(s);
 			break;
+			case 10: viewAl(b);
+			break;
+			
 			case 0: System.out.println("Loged Out");
 			break;
 			
 			default : throw new Illegalargumentexception("Illegal Argument Entered "+choise);
 			}
 			
-		}while(choise<10);
+		}while(choise<=10);
 		
 		
 		}
@@ -72,6 +77,13 @@ class Main{
 		}
 		}
 	
+		private static void displaystudent(Map<Integer, student> s) throws courseException {
+		// TODO Auto-generated method stub
+			
+			StudentService.viewall(s);
+		
+		}
+
 		private static String updatebatch(Scanner sc, Map<Integer, batch> b) throws courseException {
 		// TODO Auto-generated method stub
 			System.out.println("Enter the ID of the batch you want update");
@@ -261,8 +273,13 @@ class Main{
 				switch(choice) {
 				case 1: admin(sc,course,batch,student);
 				break;
+				
+				case 2: studentfun(sc,course,batch,student);
+				break;
+				case 3: System.out.println(signUp(sc,student));
 				case 0: System.out.println("Successfully exited");
 				break;
+				default: throw new Illegalargumentexception("Invalid choise");
 				}
 			}while(choice!=0);
 			
@@ -286,6 +303,32 @@ class Main{
 			}
 		}
 		
+	}
+
+	private static void studentfun(Scanner sc, Map<Integer, course> course, Map<Integer, batch> batch,
+			Map<Integer, student> student) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static String signUp(Scanner sc, Map<Integer, student> student) throws courseException, BatchException, ClassNotFoundException, IOException {
+		// TODO Auto-generated method stub
+		System.out.println("Please Enter your first name ");
+		String fname = sc.next();
+		System.out.println("Please Enter your Last name ");
+		String lname = sc.next();
+		System.out.println("Please Enter Your complete Address ");
+		String address = sc.next();
+		System.out.println("Please Enter Your Mobile Number ");
+		String number = sc.next();
+		System.out.println("Please Enter Your Email ");
+		String email = sc.next();
+		System.out.println("Please Enter Your Password ");
+		String password = sc.next();
+		int id = IdGen.idGen();
+		student s = new student(id,fname,lname,address,number,email,password);
+		String str = StudentService.addstudent(id,s,student);
+		return str;
 	}
 
 	
