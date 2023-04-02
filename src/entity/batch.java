@@ -1,6 +1,5 @@
 package entity;
 import java.io.Serializable;
-import java.util.List;
 
 import exceptions.courseException;
 import services.CourseService;
@@ -16,7 +15,7 @@ public class batch implements Serializable{
 	String startdate;
 	String endDate;
 	String Course;
-	
+	List<Map<Integer, student>> li = new ArrayList<>();
 	
 	public batch(int id,String name, String dates,String datee,String course){
 		this.id = id;
@@ -28,6 +27,24 @@ public class batch implements Serializable{
 	
 	
 	
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public void setLi(List<Map<Integer, student>> li) {
+		this.li = li;
+	}
+
+
+
 	public String getBatchname() {
 		return batchname;
 	}
