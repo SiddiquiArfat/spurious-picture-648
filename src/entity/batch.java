@@ -15,7 +15,22 @@ public class batch implements Serializable{
 	String startdate;
 	String endDate;
 	String Course;
-	List<Map<Integer, student>> li = new ArrayList<>();
+	int count = 0;
+	
+	
+	public int getCount() {
+		return count;
+	}
+
+
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+
+
+	List<Integer> li = new ArrayList<>();
 	
 	public batch(int id,String name, String dates,String datee,String course){
 		this.id = id;
@@ -39,7 +54,7 @@ public class batch implements Serializable{
 
 
 
-	public void setLi(List<Map<Integer, student>> li) {
+	public void setLi(List<Integer> li) {
 		this.li = li;
 	}
 
@@ -93,18 +108,32 @@ public class batch implements Serializable{
 
 
 
+//	@Override
+//	public String toString() {
+//		return "batch [batchname=" + batchname + ", startdate=" + startdate + ", endDate=" + endDate + ", Course="
+//				+ Course + "]";
+//	}
+
+
+
+	public List<Integer> getLi() {
+		return li;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "batch [batchname=" + batchname + ", startdate=" + startdate + ", endDate=" + endDate + ", Course="
-				+ Course + "]";
+		return "batch [id=" + id + ", batchname=" + batchname + ", startdate=" + startdate + ", endDate=" + endDate
+				+ ", Course=" + Course + ", Student in a batch" + count + ", Student ID's" + li + "]";
 	}
 
 
 
-	public List<batch> getLi() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public List<batch> getLi() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 
 

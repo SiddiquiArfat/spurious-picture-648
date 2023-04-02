@@ -1,6 +1,8 @@
 package entity;
 
-public class student {
+import java.io.Serializable;
+
+public class student implements Serializable{
 	
 	int studentId;
 	String fname;
