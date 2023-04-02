@@ -9,11 +9,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.*;
+import java.util.Map.Entry;
+
 import exceptions.*;
 import utility.*;
 
 
 class Main{
+//	admin
 	
 	public static void admin(Scanner sc,Map<Integer,course> c,Map<Integer,batch> b,Map<Integer,student> s) throws invalidadmindetails {
 		
@@ -57,6 +60,7 @@ class Main{
 			
 			case 6: updatebatch(sc,b);
 			break;
+			case 7: viewStudent(sc,s);
 			case 8: displaystudent(s);
 			break;
 			case 10: viewAl(b);
@@ -68,7 +72,7 @@ class Main{
 			default : throw new Illegalargumentexception("Illegal Argument Entered "+choise);
 			}
 			
-		}while(choise<=10);
+		}while(choise>0);
 		
 		
 		}
@@ -77,6 +81,18 @@ class Main{
 		}
 		}
 	
+		private static void viewStudent(Scanner sc, Map<Integer, student> s) throws BatchException {
+			// TODO Auto-generated method stub
+			System.out.println("Please Enter Student ID");
+			int id = sc.nextInt();
+			if(s.containsKey(id)) {
+				System.out.println(s.get(id));
+			}else {
+				throw new BatchException("ID Didn't Exist !");
+			}
+	
+		}
+
 		private static void displaystudent(Map<Integer, student> s) throws courseException {
 		// TODO Auto-generated method stub
 			
@@ -304,11 +320,102 @@ class Main{
 		}
 		
 	}
-
+	//student
 	private static void studentfun(Scanner sc, Map<Integer, course> course, Map<Integer, batch> batch,
-			Map<Integer, student> student) {
+			Map<Integer, student> student) throws BatchException {
 		// TODO Auto-generated method stub
+		int id = studentlogin(sc,student);
+		try {
+			int choise = 0;
+			do {
+				System.out.println("Press 1--->update details");
+				System.out.println("Press 2--->Change Password");
+				System.out.println("Press 3--->View All Course");
+				System.out.println("Press 4--->View All Batches");
+				System.out.println("Press 5--->Apply in a Batch");
+				
+				choise = sc.nextInt();
+				
+				switch(choise){
+				case 1: System.out.println(updateStudent(id,sc,student));
+				break;
+				case 2: System.out.println(changePassword(id,student));
+				break;
+				case 3: viewAll(course);
+				break;
+				case 4: viewAl(batch);
+				break;
+				case 5: addinbatch(id,sc,batch,student);
+				break;
+				}
+			}while(choise!=0);
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 		
+	}
+
+	
+
+private static void addinbatch(int id,Scanner sc, Map<Integer, batch> batch, Map<Integer, student> student) throws BatchException {
+		// TODO Auto-generated method stub
+		System.out.println("Please Enter the Batch ID");
+		int batchid = sc.nextInt();
+		System.out.println(StudentService.addinbatch(batchid,id,sc,batch,student));
+	}
+
+	private static String updateStudent(int id,Scanner sc, Map<Integer, student> student) {
+		// TODO Auto-generated method stub
+		System.out.println("Enter First Name");
+		String fname = sc.next();
+		System.out.println("Enter Last Name");
+		String lname = sc.next();
+		System.out.println("Enter Address");
+		String address = sc.next();
+		System.out.println("Enter Email");
+		String Email = sc.next();
+		System.out.println("Enter Number");
+		String number = sc.next();
+		student.get(id).setFname(fname);
+		student.get(id).setLname(lname);
+		student.get(id).setAddress(address);
+		student.get(id).setEmail(Email);
+		student.get(id).setNumber(number);
+		return "Details Updated";
+	}
+
+	private static String changePassword(int id, Map<Integer, student> student) {
+		// TODO Auto-generated method stub
+		System.out.println("Please Enter New Password");
+		Scanner sc = new Scanner(System.in);
+		if(student.containsKey(id)) {
+			String newpass = sc.next();
+			student.get(id).setPassword(newpass);
+			return "Password Change Successfully";
+		}
+		
+		return "";
+	}
+
+	private static int studentlogin(Scanner sc, Map<Integer, student> map) throws BatchException {
+		// TODO Auto-generated method stub
+		System.out.println("Please Enter Your Registered Email");
+		String email = sc.next();
+		System.out.println("Please Enter Your Password");
+		String password = sc.next();
+		boolean flag = false;
+		for(Entry<Integer, student> ma:map.entrySet()) {
+			if(ma.getValue().getEmail().equals(email) && ma.getValue().getPassword().equals(password)){
+				flag = true;
+				System.out.println("Successfully login Hi👋 "+ma.getValue().getFname());
+				return ma.getKey();
+			}
+		}
+		if(!flag) {
+			throw new BatchException("Email and Password Not Match!");
+		}
+		return 0;
 	}
 
 	private static String signUp(Scanner sc, Map<Integer, student> student) throws courseException, BatchException, ClassNotFoundException, IOException {

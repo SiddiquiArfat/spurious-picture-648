@@ -77,7 +77,7 @@ public interface BatchService {
 			}
 			
 			else {
-				throw new BatchException("There is no course");
+				throw new BatchException("There is no Batch");
 			}
 		
 		
